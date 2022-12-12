@@ -4,18 +4,27 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Auth = void 0;
+require("core-js/modules/es.promise.js");
 var _authingNodeSdk = require("authing-node-sdk");
+var _dev = require("./dev.js");
 class Auth {
   constructor() {}
-  authAccount(accesstoken) {
+  async authAccount(accesstoken) {
     let authenticationClient = new _authingNodeSdk.AuthenticationClient({
-      appId: "637c7118432f13b6e6738ea7",
-      appSecret: "4022a6299068d158a4f12389ed9cf318",
-      appHost: "https://qd-awesome-app-demo.authing.cn",
-      redirectUri: "http://localhost:5000/auth/callback",
+      appId: _dev.config.appId,
+      appSecret: _dev.config.appSecret,
+      appHost: _dev.config.appHost,
+      redirectUri: _dev.config.redirectUri,
       protocol: "oidc"
     });
-    var result = authenticationClient.introspectToken(accesstoken);
+    var token = accesstoken.split(" ")[1];
+    console.log(token);
+    if (token != null) {
+      var result = await authenticationClient.introspectToken(token);
+      return result;
+    } else {
+      return "";
+    }
   }
 }
 exports.Auth = Auth;

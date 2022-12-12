@@ -1,8 +1,13 @@
 "use strict";
 
+require("core-js/modules/es.promise.js");
+require("core-js/modules/es.array.includes.js");
+require("core-js/modules/es.string.includes.js");
 var _auth = require("./auth.js");
+var _dev = require("./dev.js");
 const express = require("express");
 const app = express();
+const cors = require("cors");
 var quertstring = require("querystring");
 var {
   expressjwt: jwt
@@ -14,27 +19,84 @@ var jwtCheck = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 5,
-    jwksUri: "https://qd-awesome-app-demo.authing.cn/oidc/.well-known/jwks.json"
+    jwksUri: _dev.config.jwks
   }),
-  audience: "637f3469b33a8ef36d2b03c5",
-  issuer: "https://qd-awesome-app-demo.authing.cn/oidc",
+  audience: _dev.config.audience,
+  issuer: _dev.config.issuer,
   algorithms: ["RS256"]
 }).unless({
   path: [/^\/api\//]
 });
-app.use(jwtCheck);
-app.post("/api/login", (req, res) => {
-  var result = auth.authAccount(req.headers.authorization);
-  console.log(quertstring.stringify(result));
-  res.send(result);
-});
-app.get("/article", (req, res) => {
-  var ss = quertstring.stringify(req);
-  console.log(ss);
-  if (req.auth.scope.split(" ").includes("disk:call")) {
-    res.send("disk info");
+
+//app.use(jwtCheck);
+app.use(cors());
+app.get("/api/face", async (req, res) => {
+  var result = await auth.authAccount(req.headers.authorization);
+  if (!result.active) {
+    //accesstoken 已经过期
+    res.status(200).send("accesstoken expired");
+    return;
+  }
+  if (result.scope == "") {
+    res.status(200).send("not authorize");
+    return;
+  }
+  console.log(result.scope.split(' ').includes('face:call'));
+  if (result.scope.split(" ").includes("face:call")) {
+    res.status(200).send("face");
   } else {
-    res.send("not authorized api");
+    res.status(200).send("not authorize");
+  }
+});
+app.get("/api/gender", async (req, res) => {
+  var result = await auth.authAccount(req.headers.authorization);
+  if (!result.active) {
+    //accesstoken 已经过期
+    res.status(200).send("accesstoken expired");
+    return;
+  }
+  if (result.scope == "") {
+    res.status(200).send("not authorize");
+    return;
+  }
+  if (result.scope.split(" ").includes("gender:call")) {
+    res.status(200).send("gender");
+  } else {
+    res.status(200).send("not authorize");
+  }
+});
+app.get("/api/object", async (req, res) => {
+  var result = await auth.authAccount(req.headers.authorization);
+  if (!result.active) {
+    //accesstoken 已经过期
+    res.status(200).send("accesstoken expired");
+    return;
+  }
+  if (result.scope == "") {
+    res.status(200).send("not authorize");
+    return;
+  }
+  if (result.scope.split(" ").includes("object:call")) {
+    res.status(200).send("object");
+  } else {
+    res.status(200).send("not authorize");
+  }
+});
+app.get("/api/action", async (req, res) => {
+  var result = await auth.authAccount(req.headers.authorization);
+  if (!result.active) {
+    //accesstoken 已经过期
+    res.status(200).send("accesstoken expired");
+    return;
+  }
+  if (result.scope == "") {
+    res.status(200).send("not authorize");
+    return;
+  }
+  if (result.scope.split(" ").includes("action:call")) {
+    res.status(200).send("action");
+  } else {
+    res.status(200).send("not authorize");
   }
 });
 app.listen(3000, () => {

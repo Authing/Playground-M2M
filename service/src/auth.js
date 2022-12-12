@@ -1,14 +1,18 @@
 import { AuthenticationClient } from "authing-node-sdk";
+const config=require('./config/index');
 
 export class Auth {
-  constructor() {}
+  constructor() {
+  
+    console.log(config.appId);
+  }
 
   async authAccount(accesstoken) {
     let authenticationClient = new AuthenticationClient({
-      appId: "637c7118432f13b6e6738ea7",
-      appSecret: "4022a6299068d158a4f12389ed9cf318",
-      appHost: "https://qd-awesome-app-demo.authing.cn",
-      redirectUri: "http://localhost:5000/auth/callback",
+      appId: config.appId,
+      appSecret: config.appSecret,
+      appHost: config.appHost,
+      redirectUri: config.redirectUri,
       protocol: "oidc",
     });
     var token = accesstoken.split(" ")[1];

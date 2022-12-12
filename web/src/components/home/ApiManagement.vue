@@ -81,7 +81,7 @@ export default defineComponent({
       {
         dataIndex: "sourcecode",
         key: "sourcecode",
-        title: "资源名",
+        title: "资源操作",
         width: 200,
         ellipsis: true,
       },
@@ -112,7 +112,7 @@ export default defineComponent({
 
     data[0] = {
       key: "1",
-      appname: "app 1",
+      appname: "app 2",
       appkey: import.meta.env.APP_ACCESSKEY,
       appsecret: import.meta.env.APP_ACCESSSECRET,
       sourcecode: "",

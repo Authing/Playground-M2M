@@ -11,22 +11,8 @@ var { expressjwt: jwt } = require("express-jwt");
 
 const auth = new Auth();
 
-var jwks = require("jwks-rsa");
 
-var jwtCheck = jwt({
-  secret: jwks.expressJwtSecret({
-    cache: true,
-    rateLimit: true,
-    jwksRequestsPerMinute: 5,
-    jwksUri:
-      "https://qd-awesome-app-demo.authing.cn/oidc/.well-known/jwks.json",
-  }),
-  audience: "637f3469b33a8ef36d2b03c5",
-  issuer: "https://qd-awesome-app-demo.authing.cn/oidc",
-  algorithms: ["RS256"],
-}).unless({ path: [/^\/api\//] });
 
-//app.use(jwtCheck);
 app.use(cors());
 
 app.get("/api/face", async (req, res) => {
@@ -43,9 +29,8 @@ app.get("/api/face", async (req, res) => {
     res.status(200).send("not authorize");
     return;
   }
-  console.log(result.scope.split(' ').includes('face:call'));
-  if (result.scope.split(" ").includes("face:call")) {
-    res.status(200).send("face");
+  if (result.scope.split(" ").includes("FACE:call")) {
+    res.status(200).send("FACE");
   } else {
     res.status(200).send("not authorize");
   }
@@ -65,8 +50,8 @@ app.get("/api/gender", async (req, res) => {
     return;
   }
 
-  if (result.scope.split(" ").includes("gender:call")) {
-    res.status(200).send("gender");
+  if (result.scope.split(" ").includes("GENDER:call")) {
+    res.status(200).send("GENDER");
   } else {
     res.status(200).send("not authorize");
   }
@@ -86,8 +71,8 @@ app.get("/api/object", async (req, res) => {
     return;
   }
 
-  if (result.scope.split(" ").includes("object:call")) {
-    res.status(200).send("object");
+  if (result.scope.split(" ").includes("OBJECT:call")) {
+    res.status(200).send("OBJECT");
   } else {
     res.status(200).send("not authorize");
   }
@@ -107,13 +92,13 @@ app.get("/api/action", async (req, res) => {
     return;
   }
 
-  if (result.scope.split(" ").includes("action:call")) {
-    res.status(200).send("action");
+  if (result.scope.split(" ").includes("ACTION:call")) {
+    res.status(200).send("ACTION");
   } else {
     res.status(200).send("not authorize");
   }
 });
 
-app.listen(3000, () => {
+app.listen(3001, () => {
   console.log("app listening on port 3000");
 });
