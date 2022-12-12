@@ -1,0 +1,25 @@
+{
+  "name": "vue-js-demo",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ant-design/icons-vue": "^6.1.0",
+    "@authing/vue-ui-components": "^3.1.31",
+    "ant-design-vue": "^3.2.15",
+    "authing-js-sdk": "^4.23.36-rc.0",
+    "axios": "^1.2.0",
+    "process": "^0.11.10",
+    "v-clipboard": "^2.2.3",
+    "vue": "^3.2.45",
+    "vue-router": "^4.0.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.2.0",
+    "vite": "^3.2.4"
+  }
+}
