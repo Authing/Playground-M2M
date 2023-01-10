@@ -9,7 +9,7 @@ import { Guard } from "@authing/vue-ui-components";
 import "@authing/vue-ui-components/lib/index.min.css";
 import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
-import { AuthingClient } from "../authing/AuthingClient";
+import { setUserInfo } from "./AuthingClient";
 
 export default defineComponent({
   name: "AuthingLogin",
@@ -27,9 +27,7 @@ export default defineComponent({
 
     const onLogin = (userInfo) => {
       console.log(userInfo);
-
-      AuthingClient.setCurrentUser(userInfo);
-
+      setUserInfo(userInfo);
       route.push("/home");
     };
 
