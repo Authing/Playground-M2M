@@ -1,22 +1,26 @@
 <template>
   <div>
-    <a-dropdown-button type="text" shape="circle">
-      <template #overlay>
-        <a-menu @click="menuClick">
-          <a-menu-item key="1"> <SmileOutlined />注销 </a-menu-item>
-        </a-menu>
-      </template>
-      <template #icon>
-        <a-avatar :src="user.photo"></a-avatar>
-      </template>
-    </a-dropdown-button>
+    <div style="float: right">
+      <a-dropdown-button type="text" shape="circle">
+        <template #overlay>
+          <a-menu @click="menuClick">
+            <a-menu-item key="1"> <SmileOutlined />注销 </a-menu-item>
+          </a-menu>
+        </template>
+        <template #icon>
+          <a-avatar :src="user.photo"></a-avatar>
+        </template>
+      </a-dropdown-button>
+    </div>
+    <div style="float: right">{{ user.username }}</div>
   </div>
 </template>
 <script>
 import { SmileOutlined, DownOutlined } from "@ant-design/icons-vue";
 import { defineComponent, onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
-import { AuthingClient } from "../authing/AuthingClient";
+import { setUserInfo, UserInfo } from "../authing/AuthingClient";
+import { request } from "../../util/request";
 import{useGuard} from "@authing/guard-vue3";
 
 export default defineComponent({
@@ -50,7 +54,7 @@ export default defineComponent({
 
     return {
       user,
-      menuClick
+      menuClick,
     };
   },
 });

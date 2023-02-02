@@ -10,7 +10,7 @@ import "@authing/guard-vue3/dist/esm/guard.min.css";
 
 import { defineComponent,onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { AuthingClient } from "../authing/AuthingClient";
+import { setUserInfo } from "./AuthingClient";
 
 
 

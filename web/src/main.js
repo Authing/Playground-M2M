@@ -5,7 +5,6 @@ import 'ant-design-vue/dist/antd.css'
 import   axios from 'axios'
 import Clipboard from 'v-clipboard'
 import * as VueRouter from 'vue-router'
-import {AuthingClient} from './components/authing/AuthingClient'
 import { createGuard } from '@authing/guard-vue3'
 
 import './assets/main.css'
@@ -15,10 +14,14 @@ import router from './router/index'
 
 VueElement.prototype.$http=axios
 VueElement.prototype.$env=process.env;
-VueElement.prototype.GLOBAL=AuthingClient;
 VueElement.prototype.$route=router;
 
 const app=createApp(App)
+
+router.beforeEach((to,from,next)=>{
+    console.log(`form:${from}`);
+    next();
+});
 
 app.use(router)
 app.use(Antd)
