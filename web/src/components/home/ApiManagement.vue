@@ -61,12 +61,6 @@ export default defineComponent({
   setup() {
     const columns = [
       {
-        name: "appname",
-        dataIndex: "appname",
-        key: "appname",
-        width: 100,
-      },
-      {
         dataIndex: "appkey",
         key: "appkey",
         title: "编程账号",

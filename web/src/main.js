@@ -6,6 +6,7 @@ import   axios from 'axios'
 import Clipboard from 'v-clipboard'
 import * as VueRouter from 'vue-router'
 import {AuthingClient} from './components/authing/AuthingClient'
+import { createGuard } from '@authing/guard-vue3'
 
 import './assets/main.css'
 
@@ -21,5 +22,6 @@ const app=createApp(App)
 
 app.use(router)
 app.use(Antd)
+app.use(createGuard({appId:import.meta.env.APP_AUTHING_APPID}))
 app.mount('#app')
 

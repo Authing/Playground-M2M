@@ -1,5 +1,5 @@
 {
-  "name": "vue-js-demo",
+  "name": "m2m-client",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
-    "@authing/vue-ui-components": "^3.1.31",
+    "@authing/guard-vue3": "^5.1.2",
     "ant-design-vue": "^3.2.15",
     "authing-js-sdk": "^4.23.36-rc.0",
     "axios": "^1.2.0",

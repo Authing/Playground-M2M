@@ -1,21 +1,21 @@
 <template>
-  <Guard class="elCenter" :appId="appId" @login="onLogin"></Guard>
+  
+  <!-- <Guard class="elCenter" :appId="appId" @login="onLogin"></Guard> -->
+  <div id="authing-guard" class="elCenter"></div>
 </template>
 
 <script>
-import { Guard } from "@authing/vue-ui-components";
+import {createGuard,useGuard} from "@authing/guard-vue3";
+import "@authing/guard-vue3/dist/esm/guard.min.css";
 
-// 引入 CSS 样式
-import "@authing/vue-ui-components/lib/index.min.css";
-import { defineComponent } from "vue";
+import { defineComponent,onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { AuthingClient } from "../authing/AuthingClient";
 
+
+
 export default defineComponent({
   name: "AuthingLogin",
-  components: {
-    Guard,
-  },
   data() {
     return {
       appId: import.meta.env.APP_AUTHING_APPID,
@@ -25,12 +25,22 @@ export default defineComponent({
   setup() {
     const route = useRouter();
 
+    onMounted(()=>
+    {
+      const guard=useGuard();
+
+
+      guard.start("#authing-guard").then((userInfo)=>{
+        AuthingClient.setCurrentUser(userInfo);
+
+        route.push("/home");
+      })
+    });
+
     const onLogin = (userInfo) => {
       console.log(userInfo);
 
-      AuthingClient.setCurrentUser(userInfo);
-
-      route.push("/home");
+     
     };
 
     return {
@@ -38,6 +48,11 @@ export default defineComponent({
     };
   },
 });
+ 
+//const guard=createGuard({appId:import.meta.env.APP_AUTHING_APPID});
+
+  //guard.start("#authing-guard-container");
+
 </script>
 <style>
 .divCenter {

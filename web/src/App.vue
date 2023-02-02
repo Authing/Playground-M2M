@@ -13,7 +13,6 @@ export default defineComponent({
     const route=useRouter();
 
     onMounted(()=>{
-      console.log('xxx');
       route.push('/login');
     })
   }

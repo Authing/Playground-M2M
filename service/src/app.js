@@ -36,6 +36,10 @@ app.get("/api/face", async (req, res) => {
   }
 });
 
+app.get("/hello",(req,res)=>{
+  res.status(200).send("hello");
+});
+
 app.get("/api/gender", async (req, res) => {
   var result = await auth.authAccount(req.headers.authorization);
 
@@ -100,5 +104,5 @@ app.get("/api/action", async (req, res) => {
 });
 
 app.listen(3001, () => {
-  console.log("app listening on port 3000");
+  console.log("app listening on port 3001");
 });

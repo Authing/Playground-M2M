@@ -6,15 +6,17 @@ Object.defineProperty(exports, "__esModule", {
 exports.Auth = void 0;
 require("core-js/modules/es.promise.js");
 var _authingNodeSdk = require("authing-node-sdk");
-var _dev = require("./dev.js");
+const config = require('./config/index');
 class Auth {
-  constructor() {}
+  constructor() {
+    console.log(config.appId);
+  }
   async authAccount(accesstoken) {
     let authenticationClient = new _authingNodeSdk.AuthenticationClient({
-      appId: _dev.config.appId,
-      appSecret: _dev.config.appSecret,
-      appHost: _dev.config.appHost,
-      redirectUri: _dev.config.redirectUri,
+      appId: config.appId,
+      appSecret: config.appSecret,
+      appHost: config.appHost,
+      redirectUri: config.redirectUri,
       protocol: "oidc"
     });
     var token = accesstoken.split(" ")[1];

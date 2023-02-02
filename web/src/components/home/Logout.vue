@@ -17,6 +17,7 @@ import { SmileOutlined, DownOutlined } from "@ant-design/icons-vue";
 import { defineComponent, onMounted, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { AuthingClient } from "../authing/AuthingClient";
+import{useGuard} from "@authing/guard-vue3";
 
 export default defineComponent({
   components: {
@@ -24,6 +25,7 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
+    const guard=useGuard();
     const user=reactive({
         photo:'',
         token:''
@@ -31,17 +33,19 @@ export default defineComponent({
 
     onMounted(() => {
       AuthingClient.getCurrentUser().then((res) => {
-        console.log(res);
-        user.photo = res.photo;
+        user.photo = res.photo?res.photo:"";
         user.token = res.token;
       });
     });
 
    const menuClick = (index) => {
-      AuthingClient.logout();
-      AuthingClient.checkLoginStatus(user.token).then((res) => {
-        router.push("/login");
-      });
+      
+      console.log(guard);
+      guard.logout();
+      router.push("/login");
+      // AuthingClient.checkLoginStatus(user.token).then((res) => {
+      //  
+      // });
     };
 
     return {

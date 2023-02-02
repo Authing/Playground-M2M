@@ -4,7 +4,6 @@ require("core-js/modules/es.promise.js");
 require("core-js/modules/es.array.includes.js");
 require("core-js/modules/es.string.includes.js");
 var _auth = require("./auth.js");
-var _dev = require("./dev.js");
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -13,22 +12,6 @@ var {
   expressjwt: jwt
 } = require("express-jwt");
 const auth = new _auth.Auth();
-var jwks = require("jwks-rsa");
-var jwtCheck = jwt({
-  secret: jwks.expressJwtSecret({
-    cache: true,
-    rateLimit: true,
-    jwksRequestsPerMinute: 5,
-    jwksUri: _dev.config.jwks
-  }),
-  audience: _dev.config.audience,
-  issuer: _dev.config.issuer,
-  algorithms: ["RS256"]
-}).unless({
-  path: [/^\/api\//]
-});
-
-//app.use(jwtCheck);
 app.use(cors());
 app.get("/api/face", async (req, res) => {
   var result = await auth.authAccount(req.headers.authorization);
@@ -41,12 +24,14 @@ app.get("/api/face", async (req, res) => {
     res.status(200).send("not authorize");
     return;
   }
-  console.log(result.scope.split(' ').includes('face:call'));
-  if (result.scope.split(" ").includes("face:call")) {
-    res.status(200).send("face");
+  if (result.scope.split(" ").includes("FACE:call")) {
+    res.status(200).send("FACE");
   } else {
     res.status(200).send("not authorize");
   }
+});
+app.get("/hello", (req, res) => {
+  res.status(200).send("hello");
 });
 app.get("/api/gender", async (req, res) => {
   var result = await auth.authAccount(req.headers.authorization);
@@ -59,8 +44,8 @@ app.get("/api/gender", async (req, res) => {
     res.status(200).send("not authorize");
     return;
   }
-  if (result.scope.split(" ").includes("gender:call")) {
-    res.status(200).send("gender");
+  if (result.scope.split(" ").includes("GENDER:call")) {
+    res.status(200).send("GENDER");
   } else {
     res.status(200).send("not authorize");
   }
@@ -76,8 +61,8 @@ app.get("/api/object", async (req, res) => {
     res.status(200).send("not authorize");
     return;
   }
-  if (result.scope.split(" ").includes("object:call")) {
-    res.status(200).send("object");
+  if (result.scope.split(" ").includes("OBJECT:call")) {
+    res.status(200).send("OBJECT");
   } else {
     res.status(200).send("not authorize");
   }
@@ -93,13 +78,13 @@ app.get("/api/action", async (req, res) => {
     res.status(200).send("not authorize");
     return;
   }
-  if (result.scope.split(" ").includes("action:call")) {
-    res.status(200).send("action");
+  if (result.scope.split(" ").includes("ACTION:call")) {
+    res.status(200).send("ACTION");
   } else {
     res.status(200).send("not authorize");
   }
 });
-app.listen(3000, () => {
-  console.log("app listening on port 3000");
+app.listen(3001, () => {
+  console.log("app listening on port 3001");
 });
 //# sourceMappingURL=app.js.map
